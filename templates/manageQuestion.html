@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理问题</title>
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+<body>
+<div>
+    {% for item in data %}
+        <ul>
+            <li>
+                问题标题：{{ item.title }}
+            </li>
+            <li>
+                创建人：{{ item.ownerName }}
+            </li>
+            <li>
+                回复数：{{ item.answerCount }}
+            </li>
+            <li>
+                创建日期：{{ item.createdDate }}
+            </li>
+        </ul>
+        <form  class="form-row" action="/detail/{{ item.id }}"  method="post">
+            {% csrf_token %}
+            <button class="button" type="submit">查看详情</button>
+        </form>
+        <form  class="form-row">
+            {% csrf_token %}
+            <button onclick="closeQ({{ item.id }})" class="button">关闭问题</button>
+            <button onclick="delQ({{ item.id }})" class="button" type="submit">删除问题</button>
+        </form>
+    {% endfor %}
+</div>
+<script type="text/javascript">
+    function closeQ(id) {
+        let url = "http://118.31.34.71:9997/question/close/" + id;
+        $.post(url, function () {
+            alert("关闭成功");
+        });
+    }
+    function delQ(id) {
+        let url = "http://118.31.34.71:9997/question/delete/" + id;
+        $.post(url, function () {
+            alert("删除成功");
+        });
+    }
+</script>
+
+</body>
+</html>

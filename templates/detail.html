@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>问题详情</title>
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+<body>
+<div>
+    <ul>
+        <li>
+            标题：{{ info.title }}
+        </li>
+        <li>
+            描述：{{ info.content }}
+        </li>
+        <li>
+            创建人：{{ info.ownerName }}
+        </li>
+
+        <div>-------------------------------</div>
+        <div>回答列表</div>
+
+        {% for item in data %}
+            <div>-------------------------------</div>
+            <li>
+                回答者： {{ item.ownerName }}
+            </li>
+            <li>
+                回复内容：{{ item.answerContent }}
+            </li>
+            <li>
+                创建时间：{{ item.createdDate }}
+            </li>
+            <li>
+                当前状态：<label id="state">{{ item.closed }}</label>
+            </li>
+            {#            action="/delAnswer/{{ item.id }}"#}
+            <form class="form-row" method="post">
+                {% csrf_token %}
+                <button onclick="modifyDel({{ item.id }})" class="button"  type="submit">删除</button>
+            </form>
+        {% endfor %}
+    </ul>
+</div>
+
+<script type="text/javascript">
+
+    function modifyDel(id) {
+        let url = "http://127.0.0.1:8000/delAnswer/" + id;
+        $.post(url);
+        {#let url = "http://118.31.34.71:9997/question/delete/" + id;#}
+        {#$.post(url, function () {#}
+        {#    alert("删除成功");#}
+    }
+</script>
+</body>
+</html>
